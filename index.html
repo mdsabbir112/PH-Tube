@@ -14,7 +14,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
-
+<!-- Css Style -->
+ <style>
+    .active{
+        background-color: cornflowerblue;
+        color: black;
+        /* border-bottom: 5px solid blueviolet; */
+        margin-bottom: 8px;
+        /* margin-top: 10px; */
+        box-shadow: 4px 4px 10px  blueviolet;
+        border: 0px;
+    }
+ </style>
  
 </head>
 <body class="inter">
@@ -31,7 +42,7 @@
 
     <nav id="CategoryData" class="flex justify-center items-center gap-6 my-8">
         <div>
-            <button onclick="mainVideo()" class=" btn btn-soft bg-[#FF1F3D] text-white text-lg font-semibold">All</button>
+            <button id="btn-all" onclick="mainVideo()" class=" btn btn-soft hover:bg-[#FF1F3D] hover:text-white text-lg font-semibold">All</button>
         </div>
         <!-- here create a Div Dynamically which fetch the Catagory data from API -->
 
@@ -42,6 +53,7 @@
 
     <main>
         <!-- Video Show Category Section -->
+
          <section id="showVideo" class="w-11/12 mx-auto grid grid-cols-4 items-center gap-6 my-5">
             
             <!-- Demo card  -->
@@ -77,6 +89,12 @@
    
   </div>
 </div> -->
+
+
+        <div class="py-28 col-span-full flex justify-center items-center flex-col ">
+            <img src="assets/Icon.png" alt="icons">
+            <h2 class=" mt-8 text-center font-bold text-3xl text-[#171717]">Oops!! Sorry, There is no content here</h2>
+        </div>
 
          </section>
     </main>
