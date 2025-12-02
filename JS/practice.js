@@ -18,7 +18,7 @@ const displayCategory = (categories) => {
         //Create a DIV 
         const newDiv = document.createElement("div");
         newDiv.innerHTML =`
-        <button onclick="loadCategoryVideos(${cat.category_id})" class=" btn btn-soft hover:bg-[#FF1F3D] hover:text-white text-lg font-semibold">${cat.category}</button>
+        <button id="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id})" class=" btn btn-soft hover:bg-[#FF1F3D] hover:text-white text-lg font-semibold">${cat.category}</button>
         `
         mainDiv.append(newDiv);
 
@@ -31,14 +31,34 @@ const loadCategoryVideos = (id) => {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(response => response.json())
     .then (data => displayVideos(data.category))
+
+// change the color after click the button 
+    const changeColor = document.getElementById(`btn-${id}`)
+    // changeColor.classList.remove('active');
+    
+    removeActiveClass(); // For remove the active class from the btn
+    changeColor.classList.add('active');
+    console.log(changeColor);
 }
 
+const removeActiveClass = () => {
+     const findActiveClass = document.getElementsByClassName("active");
+     console.log(findActiveClass);
+    for(let btn of findActiveClass){
+        btn.classList.remove("active");
+        console.log(btn);
+    }
+}
 
 const mainVideo = () => {
 
     fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then(response => response.json())
     .then(data => displayVideos(data.videos))
+
+        //For change the color of All Button after click Event
+    const btnAll = document.getElementById("btn-all");
+    btnAll.classList.add("active");
 }
 
 const displayVideos = (videos) => {
@@ -97,6 +117,7 @@ insertVideos.innerHTML ="";
 
    
   </div>
+  <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block my-3 border-none">Show Details</button>
 </div> 
         `
 
@@ -106,10 +127,52 @@ insertVideos.innerHTML ="";
 
 }
 
+const loadVideoDetails = (videoId) => {
+    console.log(videoId);
+    //Make an url dynamically for specific video Id
+    const url = ` https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    fetch(url)
+    .then(response => response.json())
+    .then(data => displayVideoDetails(data))
+}
+
+const displayVideoDetails = (ApiDetails) => {
+    // console.log(ApiDetails); 
+
+    document.getElementById("video_details").showModal();
+
+    const ModalDetails = document.getElementById("modal_Details");
+    ModalDetails.innerHTML = `
+        <div class="card bg-base-100 image-full w-full shadow-sm">
+  <figure>
+    <img
+    class="w-full h-60 bg-cover"
+      src="${ApiDetails.video.thumbnail}"
+      alt="Video Details" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${ApiDetails.video.title}</h2>
+    <p>${ApiDetails.video.description}</p>
+    <div class="card-actions justify-end">
+        <button class="btn btn-primary">Watch Now</button>
+
+
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+    `;
+
+}
+
 mainCategory()
 // mainVideos()
 
-// fetch("https://openapi.programming-hero.com/api/phero-tube/category/1001")
-//     .then(response => response.json())
-//     .then (data => console.log(data.category))
-
+fetch(" https://openapi.programming-hero.com/api/phero-tube/video/aaac")
+.then(response => response.json())
+.then(data => console.log(data))
